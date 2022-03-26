@@ -34,6 +34,10 @@ console.log("Will read file!");
 
 //////////////////////////////
 // Server
+
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
+const dataObject = JSON.parse(data);
+
 const server = http.createServer((req, res) => {
   const pathName = req.url;
 
@@ -41,10 +45,13 @@ const server = http.createServer((req, res) => {
     res.end("This is the overview");
   } else if (pathName === "/product") {
     res.end("This is the product");
+  } else if (pathName === "/api") {
+    res.writeHead(200, { "Content-type": "application/json" });
+    res.end(data);
   } else {
     res.writeHead(404, {
       "Content-type": "text/html",
-      "my-own-header": "hello-world"
+      "my-own-header": "hello-world",
     });
     res.end("<h1>Page not found!</h1>");
   }
